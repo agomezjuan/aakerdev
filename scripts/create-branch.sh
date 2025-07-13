@@ -81,7 +81,7 @@ print_info "Issue: ${ISSUE_TITLE}"
 
 # Sanitize title for branch name
 # Convert to lowercase, replace spaces with hyphens, remove special characters
-SANITIZED_TITLE=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | sed 's/ \+/-/g' | sed 's/--*/-/g' | sed 's/^-\+\|-\+$//g')
+SANITIZED_TITLE=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | sed 's/ /-/g' | sed 's/--*/-/g' | sed 's/^-*\|-*$//g')
 
 # Calculate how much space we have for the title part
 PREFIX="feature/${ISSUE_NUMBER}-"
