@@ -32,17 +32,28 @@ pnpm test:sonar
 
 El servidor SonarQube está configurado en `https://sonar.ingenial.co`.
 
-Para autenticación, configura tu token:
+### 🔐 Configuración Segura de Token
 
-```bash
-export SONAR_LOGIN="your-sonar-token"
-```
+**⚠️ NUNCA hardcodees el token en archivos de código**
 
-O añádelo al archivo `sonar-project.properties`:
+1. **Para desarrollo local**:
 
-```properties
-sonar.login=your-sonar-token
-```
+   ```bash
+   # Opción 1: Variable de entorno
+   export SONAR_TOKEN="your-sonar-token"
+
+   # Opción 2: Archivo .env.local (recomendado)
+   echo "SONAR_TOKEN=your-sonar-token" >> .env.local
+   ```
+
+2. **Para GitHub Actions**:
+   - Configura el secret `SONAR_TOKEN` en GitHub
+   - El workflow lo usará automáticamente
+
+3. **Obtener el token**:
+   - Visita: https://sonar.ingenial.co/account/security
+   - Genera token con permisos "Analyze"
+   - Úsalo inmediatamente y guárdalo seguro
 
 ## Configuración de CI/CD
 
