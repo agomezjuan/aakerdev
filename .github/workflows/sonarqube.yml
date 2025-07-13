@@ -56,4 +56,3 @@ jobs:
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.exclusions=**/*.test.ts,**/*.spec.ts,**/*.test.js,**/*.spec.js,**/node_modules/**,**/dist/**,**/.astro/**
-

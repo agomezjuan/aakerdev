@@ -7,6 +7,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "astro check",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
@@ -14,6 +19,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
+    "quality": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test:run",
+    "quality:fix": "pnpm lint:fix && pnpm format && pnpm typecheck",
     "sonar": "sonar-scanner",
     "test:sonar": "mkdir -p test-results && pnpm test:coverage && pnpm test:e2e && pnpm sonar",
     "prepare": "husky"
@@ -31,6 +38,7 @@
     "astro": "^5.11.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@playwright/test": "^1.54.1",
@@ -46,6 +54,7 @@
     "prettier": "^3.6.2",
     "prettier-plugin-astro": "^0.14.1",
     "sonar-scanner": "^3.1.0",
+    "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   }
 }

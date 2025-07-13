@@ -5,7 +5,7 @@ NC='\033[0m' # No Color
 
 # Run commitlint and capture the result
 if ! pnpm exec commitlint --edit $1 >/dev/null 2>&1; then
-    echo "❌ Invalid commit message!"
+    echo "${RED}✘${NC} Invalid commit message!"
     echo ""
     echo "🔧 Required format: <type>[optional scope]: <description>"
     echo ""

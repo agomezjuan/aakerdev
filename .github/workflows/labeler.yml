@@ -12,7 +12,7 @@ jobs:
   label:
     name: Auto Label PR
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Apply Labels
         uses: actions/labeler@v5

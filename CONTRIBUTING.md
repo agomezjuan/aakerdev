@@ -11,13 +11,40 @@ pnpm install
 # Start development server
 pnpm dev
 
-# Run tests
-pnpm test:run        # Unit tests
-pnpm test:e2e        # E2E tests
-pnpm test:coverage   # Coverage report
-
 # Build for production
 pnpm build
+
+# Preview production build
+pnpm preview
+```
+
+## 🔍 Code Quality
+
+### Linting
+
+```bash
+pnpm lint           # Check for linting errors
+pnpm lint:fix       # Fix auto-fixable linting errors
+```
+
+### Formatting
+
+```bash
+pnpm format         # Format all files with Prettier
+pnpm format:check   # Check if files are properly formatted
+```
+
+### Type Checking
+
+```bash
+pnpm typecheck      # Run Astro's TypeScript checker
+```
+
+### All Quality Checks
+
+```bash
+pnpm quality        # Run lint + format check + typecheck + tests
+pnpm quality:fix    # Fix linting + format + typecheck
 ```
 
 ## 🧪 Testing
@@ -39,19 +66,28 @@ pnpm test:e2e:ui    # Interactive mode
 
 ## 📊 Quality Assurance
 
-### Linting & Formatting
-
-```bash
-npx eslint . --fix
-npx prettier --write .
-```
-
 ### SonarQube Analysis
 
 ```bash
 # Local analysis (requires SONAR_TOKEN)
 export SONAR_TOKEN="your-token"
 pnpm sonar
+
+# Complete quality pipeline
+pnpm test:sonar     # Tests + coverage + E2E + SonarQube
+```
+
+## ⚡ Quick Commands
+
+```bash
+# Development workflow
+pnpm dev            # Start dev server
+pnpm quality:fix    # Fix all quality issues
+pnpm test:run       # Run all tests
+pnpm build          # Build for production
+
+# Before committing
+pnpm quality        # Verify everything passes
 ```
 
 ## 🚀 Deployment
