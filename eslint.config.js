@@ -3,6 +3,18 @@ import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import typescriptParser from "@typescript-eslint/parser";
 
 export default [
+  // Ignore patterns
+  {
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      ".astro/**",
+      "coverage/**",
+      "test-results/**",
+      "playwright-report/**",
+    ],
+  },
+
   // TypeScript files
   {
     files: ["**/*.ts", "**/*.tsx"],

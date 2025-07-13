@@ -134,6 +134,14 @@ web_modules/
 .env.production.local
 .env.local
 
+# Security: Never commit these files
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.json
+config/secrets.yml
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
