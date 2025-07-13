@@ -1,0 +1,436 @@
+---
+// Project layout - Extended base layout for project case studies
+import Base from "./Base.astro";
+
+export interface Props {
+  title: string;
+  description: string;
+  technologies?: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  startDate?: Date;
+  endDate?: Date;
+  status?: "completed" | "in-progress" | "archived";
+  role?: string;
+  team?: string;
+  canonicalURL?: string;
+  image?: string;
+}
+
+const {
+  title,
+  description,
+  technologies = [],
+  liveUrl,
+  githubUrl,
+  startDate,
+  endDate,
+  status = "completed",
+  role,
+  team,
+  canonicalURL,
+  image,
+} = Astro.props;
+
+// Format dates
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+  }).format(date);
+};
+
+// Status styling
+const getStatusStyle = (status: string) => {
+  switch (status) {
+    case "completed":
+      return "background: #dcfce7; color: #166534;";
+    case "in-progress":
+      return "background: #fef3c7; color: #92400e;";
+    case "archived":
+      return "background: #f3f4f6; color: #6b7280;";
+    default:
+      return "background: #f3f4f6; color: #6b7280;";
+  }
+};
+---
+
+<Base
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  image={image}
+>
+  <!-- Project-specific styles -->
+  <style>
+    .project-header {
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .project-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      color: #111827;
+    }
+
+    .project-description {
+      font-size: 1.125rem;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-meta-item {
+      background: #f9fafb;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .project-meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+
+    .project-meta-value {
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .project-status {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+
+    .project-technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .project-tech {
+      background: #f3f4f6;
+      color: #374151;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: 1px solid #d1d5db;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #111827;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+    }
+
+    .project-link:hover {
+      background: #1f2937;
+    }
+
+    .project-link.secondary {
+      background: #f9fafb;
+      color: #374151;
+      border: 1px solid #d1d5db;
+    }
+
+    .project-link.secondary:hover {
+      background: #f3f4f6;
+    }
+
+    .project-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .project-content :global(h2) {
+      font-size: 1.875rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem 0;
+      color: #111827;
+    }
+
+    .project-content :global(h3) {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem 0;
+      color: #111827;
+    }
+
+    .project-content :global(p) {
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .project-content :global(img) {
+      width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .project-content :global(pre) {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      font-size: 0.875rem;
+    }
+
+    .project-content :global(code) {
+      background: #f1f5f9;
+      padding: 0.125rem 0.25rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      font-family: "Courier New", monospace;
+    }
+
+    .project-content :global(pre code) {
+      background: none;
+      padding: 0;
+    }
+
+    .project-content :global(ul),
+    .project-content :global(ol) {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .project-content :global(li) {
+      margin-bottom: 0.5rem;
+    }
+
+    .project-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .project-footer {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 2rem;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .project-navigation {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .project-nav-link {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: #374151;
+      transition: background-color 0.2s ease;
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .project-nav-link:hover {
+      background: #f3f4f6;
+    }
+
+    .project-nav-direction {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #6b7280;
+      margin-bottom: 0.25rem;
+    }
+
+    .project-nav-title {
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .project-title {
+        font-size: 2rem;
+      }
+
+      .project-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .project-navigation {
+        flex-direction: column;
+      }
+
+      .project-nav-link {
+        max-width: none;
+      }
+
+      .project-links {
+        flex-direction: column;
+      }
+
+      .project-link {
+        justify-content: center;
+      }
+    }
+  </style>
+
+  <article class="project-content">
+    <!-- Project header -->
+    <header class="project-header">
+      <h1 class="project-title">{title}</h1>
+      <p class="project-description">{description}</p>
+
+      <!-- Project metadata -->
+      <div class="project-meta">
+        {
+          status && (
+            <div class="project-meta-item">
+              <div class="project-meta-label">Status</div>
+              <div class="project-meta-value">
+                <span class="project-status" style={getStatusStyle(status)}>
+                  {status.replace("-", " ")}
+                </span>
+              </div>
+            </div>
+          )
+        }
+
+        {
+          (startDate || endDate) && (
+            <div class="project-meta-item">
+              <div class="project-meta-label">Timeline</div>
+              <div class="project-meta-value">
+                {startDate && formatDate(startDate)}
+                {startDate && endDate && " - "}
+                {endDate && formatDate(endDate)}
+                {startDate && !endDate && " - Present"}
+              </div>
+            </div>
+          )
+        }
+
+        {
+          role && (
+            <div class="project-meta-item">
+              <div class="project-meta-label">Role</div>
+              <div class="project-meta-value">{role}</div>
+            </div>
+          )
+        }
+
+        {
+          team && (
+            <div class="project-meta-item">
+              <div class="project-meta-label">Team</div>
+              <div class="project-meta-value">{team}</div>
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Technologies used -->
+      {
+        technologies.length > 0 && (
+          <div>
+            <div class="project-meta-label">Technologies</div>
+            <div class="project-technologies">
+              {technologies.map((tech) => (
+                <span class="project-tech">{tech}</span>
+              ))}
+            </div>
+          </div>
+        )
+      }
+
+      <!-- Project links -->
+      <div class="project-links">
+        {
+          liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link"
+            >
+              <span>🚀</span>
+              View Live Project
+            </a>
+          )
+        }
+
+        {
+          githubUrl && (
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="project-link secondary"
+            >
+              <span>📂</span>
+              View Source Code
+            </a>
+          )
+        }
+      </div>
+    </header>
+
+    <!-- Project content -->
+    <div class="project-content">
+      <slot />
+    </div>
+
+    <!-- Project footer -->
+    <footer class="project-footer">
+      <!-- Navigation to other projects -->
+      <nav class="project-navigation" aria-label="Project navigation">
+        <a href="/projects" class="project-nav-link">
+          <span class="project-nav-direction">← Back to</span>
+          <span class="project-nav-title">All Projects</span>
+        </a>
+
+        <a href="/contact" class="project-nav-link" style="text-align: right;">
+          <span class="project-nav-direction">Interested? →</span>
+          <span class="project-nav-title">Get in Touch</span>
+        </a>
+      </nav>
+    </footer>
+  </article>
+</Base>

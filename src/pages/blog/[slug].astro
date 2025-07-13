@@ -1,0 +1,54 @@
+---
+// Individual blog post page - Dynamic route for blog content
+export async function getStaticPaths() {
+  // This will be populated when we set up Content Collections
+  // For now, return empty array to prevent build errors
+  return [];
+}
+
+const { slug } = Astro.params;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Blog Post - AakerDev</title>
+    <meta
+      name="description"
+      content="Technical insights and development experiences."
+    />
+  </head>
+  <body>
+    <main>
+      <article>
+        <header>
+          <h1>Blog Post: {slug}</h1>
+          <!-- Post metadata: date, tags, reading time -->
+        </header>
+
+        <div id="post-content">
+          <p>Individual blog post content coming soon...</p>
+          <!-- Post content with syntax highlighting -->
+        </div>
+
+        <footer>
+          <!-- Tags, social sharing, related posts -->
+        </footer>
+      </article>
+
+      <!-- Additional sections -->
+      <section id="post-navigation">
+        <h2>Navigate</h2>
+        <!-- Previous/next posts, back to blog -->
+      </section>
+
+      <section id="related-posts">
+        <h2>Related Posts</h2>
+        <!-- Similar content suggestions -->
+      </section>
+    </main>
+  </body>
+</html>
