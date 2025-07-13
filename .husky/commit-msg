@@ -1,4 +1,7 @@
 #!/bin/sh
+GREEN='\033[32m'
+RED='\033[31m'
+NC='\033[0m' # No Color
 
 # Run commitlint and capture the result
 if ! pnpm exec commitlint --edit $1 >/dev/null 2>&1; then
@@ -19,15 +22,15 @@ if ! pnpm exec commitlint --edit $1 >/dev/null 2>&1; then
     echo "  build    - Build system changes"
     echo "  revert   - Revert previous changes"
     echo ""
-    echo "✔ Valid examples:"
+    echo "${GREEN}✔${NC} Valid examples:"
     echo "  feat: add user authentication"
     echo "  fix(auth): resolve login issue"
     echo "  docs: update README with installation steps"
     echo "  chore: update dependencies"
     echo ""
-    echo "❌ Your message: \"$(cat $1)\""
+    echo "${RED}✘${NC} Your message: \"$(cat $1)\""
     echo ""
     exit 1
 fi
 
-echo "✔ Valid commit message"
+echo "${GREEN}✔${NC} Valid commit message"
