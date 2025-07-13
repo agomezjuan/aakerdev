@@ -219,7 +219,16 @@ $RECYCLE.BIN/
 # jetbrains setting folder
 .idea/
 
+# Test results and reports
+.playwright/
+test-results/
+playwright-report/
+coverage/
+.sonarqube/
+.scannerwork/
+
 # Project specific
 CLAUDE.md
+.claude
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,linux,node,astro
