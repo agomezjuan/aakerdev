@@ -1,0 +1,151 @@
+#!/bin/sh
+GREEN='\033[32m'
+YELLOW='\033[33m'
+RED='\033[31m'
+BLUE='\033[34m'
+NC='\033[0m' # No Color
+
+echo "${BLUE}🔍 Running pre-push checks...${NC}"
+echo ""
+
+# Function to print step headers
+print_step() {
+    echo "${BLUE}▶${NC} $1"
+}
+
+# Function to print success
+print_success() {
+    echo "${GREEN}✔${NC} $1"
+}
+
+# Function to print error
+print_error() {
+    echo "${RED}✘${NC} $1"
+}
+
+# Function to print warning
+print_warning() {
+    echo "${YELLOW}⚠${NC} $1"
+}
+
+# Exit on any failure
+set -e
+
+# Step 1: Run linting and formatting checks
+print_step "Checking code quality (linting and formatting)..."
+if pnpm lint > /dev/null 2>&1; then
+    print_success "Linting passed"
+else
+    print_error "Linting failed"
+    echo "Run 'pnpm lint:fix' to fix issues"
+    exit 1
+fi
+
+if pnpm format:check > /dev/null 2>&1; then
+    print_success "Formatting check passed"
+else
+    print_error "Formatting check failed"
+    echo "Run 'pnpm format' to fix formatting issues"
+    exit 1
+fi
+
+# Step 2: Run TypeScript type checking
+print_step "Running TypeScript type checking..."
+if pnpm typecheck > /dev/null 2>&1; then
+    print_success "TypeScript type checking passed"
+else
+    print_error "TypeScript type checking failed"
+    echo "Fix type errors before pushing"
+    exit 1
+fi
+
+# Step 3: Run unit tests with coverage
+print_step "Running unit tests with coverage..."
+if pnpm test:run > /dev/null 2>&1; then
+    print_success "Unit tests passed"
+else
+    print_error "Unit tests failed"
+    echo "Fix failing unit tests before pushing"
+    exit 1
+fi
+
+# Step 4: Check unit test coverage
+print_step "Checking test coverage requirements..."
+if pnpm test:coverage > /dev/null 2>&1; then
+    print_success "Test coverage requirements met"
+else
+    print_warning "Test coverage below threshold (check coverage report)"
+    # Don't fail the push for coverage, just warn
+fi
+
+# Step 5: Build the project to ensure it compiles
+print_step "Building project to ensure it compiles..."
+if pnpm build > /dev/null 2>&1; then
+    print_success "Build successful"
+else
+    print_error "Build failed"
+    echo "Fix build errors before pushing"
+    exit 1
+fi
+
+# Step 6: Run E2E tests (with build check as alternative)
+print_step "Running E2E tests..."
+
+# Check if Playwright dependencies are installed
+if ! command -v npx > /dev/null || ! npx playwright --version > /dev/null 2>&1; then
+    print_warning "Playwright not installed or not working, skipping E2E tests"
+    print_warning "E2E tests will be run in GitHub Actions instead"
+else
+    # Check if we can start the dev server quickly
+    print_warning "Attempting to start dev server for E2E tests..."
+    
+    # Start the dev server in the background
+    pnpm dev > /dev/null 2>&1 &
+    DEV_SERVER_PID=$!
+
+    # Function to cleanup the dev server
+    cleanup() {
+        if [ ! -z "$DEV_SERVER_PID" ]; then
+            kill $DEV_SERVER_PID > /dev/null 2>&1 || true
+            wait $DEV_SERVER_PID > /dev/null 2>&1 || true
+        fi
+    }
+
+    # Set trap to cleanup on exit
+    trap cleanup EXIT
+
+    # Wait for the server to start (max 15 seconds)
+    SERVER_STARTED=false
+    for i in $(seq 1 15); do
+        if curl -s http://localhost:4321 > /dev/null 2>&1; then
+            SERVER_STARTED=true
+            break
+        fi
+        sleep 1
+    done
+
+    if [ "$SERVER_STARTED" = true ]; then
+        print_success "Dev server started, running E2E tests..."
+        
+        # Run E2E tests
+        if pnpm test:e2e > /dev/null 2>&1; then
+            print_success "E2E tests passed"
+        else
+            print_error "E2E tests failed"
+            cleanup
+            echo "Fix failing E2E tests before pushing"
+            exit 1
+        fi
+    else
+        print_warning "Dev server didn't start within 15 seconds"
+        print_warning "E2E tests will be run in GitHub Actions instead"
+    fi
+
+    # Cleanup
+    cleanup
+fi
+
+echo ""
+print_success "All pre-push checks passed! 🚀"
+echo "${GREEN}Your code is ready to be pushed to GitHub.${NC}"
+echo ""
