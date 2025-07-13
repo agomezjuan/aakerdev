@@ -1,0 +1,91 @@
+# Auto-labeling configuration for PRs
+
+# Frontend/UI
+frontend:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/components/**/*'
+      - 'src/pages/**/*'
+      - 'src/layouts/**/*'
+      - 'public/**/*'
+      - '**/*.astro'
+      - '**/*.css'
+      - '**/*.scss'
+
+# Documentation
+documentation:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.md'
+      - 'docs/**/*'
+      - '.github/**/*.md'
+
+# Testing
+testing:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/tests/**/*'
+      - 'e2e/**/*'
+      - '**/*.test.*'
+      - '**/*.spec.*'
+      - 'vitest.config.*'
+      - 'playwright.config.*'
+
+# CI/CD
+ci-cd:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/workflows/**/*'
+      - '.github/actions/**/*'
+      - 'Dockerfile*'
+      - 'docker-compose*'
+
+# Configuration
+config:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '*.config.*'
+      - '*.json'
+      - '.env*'
+      - '.gitignore'
+      - '.eslintrc*'
+      - '.prettierrc*'
+      - 'tsconfig*'
+      - 'astro.config.*'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+# Security
+security:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'SECURITY.md'
+      - '.github/workflows/security.yml'
+      - '.env*'
+
+# Dependencies
+dependencies:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'yarn.lock'
+      - 'package-lock.json'
+
+# Performance
+performance:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/utils/**/*'
+      - '**/performance.*'
+      - '**/optimization.*'
+
+# SEO
+seo:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/pages/**/*'
+      - '**/seo.*'
+      - '**/meta.*'
+      - 'public/robots.txt'
+      - 'public/sitemap.xml'

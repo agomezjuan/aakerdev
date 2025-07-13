@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📊 SonarQube Dashboard
+    url: https://sonar.ingenial.co/dashboard?id=aakerdev
+    about: View code quality metrics and analysis
+  - name: 📚 Development Notes
+    url: https://github.com/agomezjuan/aakerdev/blob/main/CONTRIBUTING.md
+    about: Development workflow and commands
