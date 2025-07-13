@@ -1,5 +1,7 @@
 ---
 // Individual project detail page - Dynamic route for project case studies
+import Project from "../../layouts/Project.astro";
+
 export async function getStaticPaths() {
   // This will be populated when we set up Content Collections
   // For now, return empty array to prevent build errors
@@ -9,48 +11,35 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Project Details - AakerDev</title>
-    <meta
-      name="description"
-      content="Detailed case study and technical breakdown."
-    />
-  </head>
-  <body>
-    <main>
-      <h1>Project: {slug}</h1>
-      <p>Individual project details coming soon...</p>
+<Project
+  title={`Project: ${slug}`}
+  description="Detailed case study and technical breakdown."
+>
+  <p>Individual project details coming soon...</p>
 
-      <!-- Placeholder sections for future implementation -->
-      <section id="project-overview">
-        <h2>Project Overview</h2>
-        <!-- Description, objectives, role -->
-      </section>
+  <!-- Placeholder sections for future implementation -->
+  <section id="project-overview">
+    <h2>Project Overview</h2>
+    <!-- Description, objectives, role -->
+  </section>
 
-      <section id="technical-details">
-        <h2>Technical Implementation</h2>
-        <!-- Technology stack, architecture, challenges -->
-      </section>
+  <section id="technical-details">
+    <h2>Technical Implementation</h2>
+    <!-- Technology stack, architecture, challenges -->
+  </section>
 
-      <section id="project-media">
-        <h2>Screenshots & Demos</h2>
-        <!-- Images, videos, live demo links -->
-      </section>
+  <section id="project-media">
+    <h2>Screenshots & Demos</h2>
+    <!-- Images, videos, live demo links -->
+  </section>
 
-      <section id="lessons-learned">
-        <h2>Key Learnings</h2>
-        <!-- Insights, challenges overcome, skills gained -->
-      </section>
+  <section id="lessons-learned">
+    <h2>Key Learnings</h2>
+    <!-- Insights, challenges overcome, skills gained -->
+  </section>
 
-      <section id="project-links">
-        <h2>Project Links</h2>
-        <!-- Live demo, repository, related posts -->
-      </section>
-    </main>
-  </body>
-</html>
+  <section id="project-links">
+    <h2>Project Links</h2>
+    <!-- Live demo, repository, related posts -->
+  </section>
+</Project>

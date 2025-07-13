@@ -40,6 +40,24 @@ describe("Page Components", () => {
       expect(result).toContain('id="recent-posts"');
       expect(result).toContain('id="call-to-action"');
     });
+
+    it("should inherit Base layout functionality", async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(Index);
+
+      // Should include Base layout elements
+      expect(result).toContain("AakerDev");
+      expect(result).toContain('class="header"');
+      expect(result).toContain('class="footer"');
+      expect(result).toContain('role="main"');
+
+      // Should include navigation
+      expect(result).toContain("Home");
+      expect(result).toContain("About");
+      expect(result).toContain("Projects");
+      expect(result).toContain("Blog");
+      expect(result).toContain("Contact");
+    });
   });
 
   describe("About Page", () => {
@@ -75,6 +93,17 @@ describe("Page Components", () => {
       expect(result).toContain('id="experience"');
       expect(result).toContain('id="education"');
       expect(result).toContain('id="personal"');
+    });
+
+    it("should inherit Base layout functionality", async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(About);
+
+      // Should include Base layout elements
+      expect(result).toContain("AakerDev");
+      expect(result).toContain('class="header"');
+      expect(result).toContain('class="footer"');
+      expect(result).toContain('role="main"');
     });
   });
 
@@ -115,6 +144,17 @@ describe("Page Components", () => {
       // Check for form element
       expect(result).toContain("form");
     });
+
+    it("should inherit Base layout functionality", async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(Contact);
+
+      // Should include Base layout elements
+      expect(result).toContain("AakerDev");
+      expect(result).toContain('class="header"');
+      expect(result).toContain('class="footer"');
+      expect(result).toContain('role="main"');
+    });
   });
 
   describe("404 Error Page", () => {
@@ -154,6 +194,89 @@ describe("Page Components", () => {
       expect(result).toContain("Projects");
       expect(result).toContain("Blog");
       expect(result).toContain("Contact");
+    });
+
+    it("should inherit Base layout functionality", async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(NotFound);
+
+      // Should include Base layout elements
+      expect(result).toContain("AakerDev");
+      expect(result).toContain('class="header"');
+      expect(result).toContain('class="footer"');
+      expect(result).toContain('role="main"');
+    });
+  });
+
+  describe("Page Integration", () => {
+    it("should have consistent page structure across all pages", async () => {
+      const container = await AstroContainer.create();
+      const pages = [
+        { component: Index, name: "Index" },
+        { component: About, name: "About" },
+        { component: Contact, name: "Contact" },
+        { component: NotFound, name: "404" },
+      ];
+
+      for (const page of pages) {
+        const result = await container.renderToString(page.component);
+
+        // All pages should have Base layout structure
+        expect(result).toContain('role="main"');
+        expect(result).toContain('class="header"');
+        expect(result).toContain('class="footer"');
+
+        // All pages should have navigation
+        expect(result).toContain("nav-link");
+
+        // All pages should have meta tags
+        expect(result).toContain('name="description"');
+        expect(result).toContain('property="og:title"');
+      }
+    });
+
+    it("should have unique page titles", async () => {
+      const container = await AstroContainer.create();
+
+      const indexResult = await container.renderToString(Index);
+      const aboutResult = await container.renderToString(About);
+      const contactResult = await container.renderToString(Contact);
+      const notFoundResult = await container.renderToString(NotFound);
+
+      // Extract title tags for comparison
+      const indexTitle = /<title>(.*?)<\/title>/.exec(indexResult)?.[1];
+      const aboutTitle = /<title>(.*?)<\/title>/.exec(aboutResult)?.[1];
+      const contactTitle = /<title>(.*?)<\/title>/.exec(contactResult)?.[1];
+      const notFoundTitle = /<title>(.*?)<\/title>/.exec(notFoundResult)?.[1];
+
+      // All titles should be different
+      expect(indexTitle).toBeDefined();
+      expect(aboutTitle).toBeDefined();
+      expect(contactTitle).toBeDefined();
+      expect(notFoundTitle).toBeDefined();
+
+      const titles = [indexTitle, aboutTitle, contactTitle, notFoundTitle];
+      const uniqueTitles = new Set(titles);
+      expect(uniqueTitles.size).toBe(4);
+    });
+
+    it("should maintain consistent branding", async () => {
+      const container = await AstroContainer.create();
+      const pages = [Index, About, Contact, NotFound];
+
+      for (const page of pages) {
+        const result = await container.renderToString(page);
+
+        // All pages should contain AakerDev branding
+        expect(result).toContain("AakerDev");
+
+        // All pages should have consistent navigation structure
+        expect(result).toContain("Home");
+        expect(result).toContain("About");
+        expect(result).toContain("Projects");
+        expect(result).toContain("Blog");
+        expect(result).toContain("Contact");
+      }
     });
   });
 });

@@ -1,45 +1,34 @@
 ---
 // Blog listing page - Technical experiences and insights
+import Base from "../../layouts/Base.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Blog - AakerDev</title>
-    <meta
-      name="description"
-      content="Technical insights, learning experiences, and development stories."
-    />
-  </head>
-  <body>
-    <main>
-      <h1>Blog</h1>
-      <p>Technical experiences and insights coming soon...</p>
+<Base
+  title="Blog"
+  description="Technical insights, learning experiences, and development stories."
+>
+  <h1>Blog</h1>
+  <p>Technical experiences and insights coming soon...</p>
 
-      <!-- Placeholder sections for future implementation -->
-      <section id="featured-posts">
-        <h2>Featured Posts</h2>
-        <!-- Latest or most popular posts -->
-      </section>
+  <!-- Placeholder sections for future implementation -->
+  <section id="featured-posts">
+    <h2>Featured Posts</h2>
+    <!-- Latest or most popular posts -->
+  </section>
 
-      <section id="blog-categories">
-        <h2>Categories</h2>
-        <!-- Category filters: tutorials, experiences, insights -->
-      </section>
+  <section id="blog-categories">
+    <h2>Categories</h2>
+    <!-- Category filters: tutorials, experiences, insights -->
+  </section>
 
-      <section id="posts-list">
-        <h2>All Posts</h2>
-        <!-- Chronological list with excerpts -->
-        <div id="blog-filters">
-          <!-- Search, tags, categories -->
-        </div>
-        <div id="posts-container">
-          <!-- Blog post previews -->
-        </div>
-      </section>
-    </main>
-  </body>
-</html>
+  <section id="posts-list">
+    <h2>All Posts</h2>
+    <!-- Chronological list with excerpts -->
+    <div id="blog-filters">
+      <!-- Search, tags, categories -->
+    </div>
+    <div id="posts-container">
+      <!-- Blog post previews -->
+    </div>
+  </section>
+</Base>
